@@ -4,9 +4,9 @@ from sentence_transformers import SentenceTransformer
 import faiss, numpy as np, os, json, hashlib, time, glob
 from docx import Document
 
-st.set_page_config(page_title="چاتبۆتی ئێجیۆکەیت (Chomani)", page_icon="📚")
+st.set_page_config(page_title="ئێجیۆکەیت (Chomani)", page_icon="📚")
 st.title("📚💬 چاتبۆتی ئێجیۆکەیت")
-st.caption("پێشکەشکراو لە لایەن کايفی چوومانی - تایبەت بە خوێندنی خۆڕایی و سکۆلەرشیپ")
+st.caption("تایبەت بە خوێندنی خۆڕایی و سکۆڵەرشیپ")
 
 CLAUDE_API_KEY = st.secrets["ANTHROPIC_API_KEY"]
 client = Anthropic(api_key=CLAUDE_API_KEY)
