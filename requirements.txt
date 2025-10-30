@@ -1,0 +1,6 @@
+streamlit
+anthropic
+sentence-transformers
+faiss-cpu
+python-docx
+pyngrok
