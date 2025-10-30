@@ -2,7 +2,6 @@ import streamlit as st
 from anthropic import Anthropic
 from sentence_transformers import SentenceTransformer
 import faiss, numpy as np, os, json, hashlib, time, glob
-from docx import Document
 
 st.set_page_config(page_title="ئێجیۆکەیت (Chomani)", page_icon="📚")
 st.title("📚💬 چاتبۆتی ئێجیۆکەیت")
@@ -14,7 +13,7 @@ client = Anthropic(api_key=CLAUDE_API_KEY)
 KNOWLEDGE_DIR = "knowledge"
 os.makedirs(KNOWLEDGE_DIR, exist_ok=True)
 
-EMB_MODEL_NAME = ""sentence-transformers/all-MiniLM-L6-v2"
+EMB_MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
 EMB_DIM = 384
 DEFAULT_MODEL = "claude-sonnet-4-5-20250929"
 TOP_K = 7
@@ -32,19 +31,9 @@ def hash_docs(doc_paths):
             pass
     return h.hexdigest()
 
-def load_docx_text(path):
-    doc = Document(path)
-    parts = []
-    for para in doc.paragraphs:
-        t = (para.text or "").strip()
-        if t:
-            parts.append(t)
-    for tbl in doc.tables:
-        for row in tbl.rows:
-            cells = [c.text.strip() for c in row.cells if c.text]
-            if any(cells):
-                parts.append(" | ".join(cells))
-    return "\n".join(parts)
+def load_text(path):
+    with open(path, "r", encoding="utf-8") as f:
+        return f.read()
 
 def chunk_text(text, chunk_size=CHUNK_SIZE, overlap=OVERLAP):
     words = text.split()
@@ -60,7 +49,7 @@ def chunk_text(text, chunk_size=CHUNK_SIZE, overlap=OVERLAP):
 def build_or_load_index():
     paths = glob.glob(os.path.join(KNOWLEDGE_DIR, "*.txt"))
     if not paths:
-        st.warning("⚠️ هیچ پەڕگەی .docx نەدۆزرایەوە لە پەڕگەی 'knowledge/' — تکایە پەڕگە زیاد بکە.")
+        st.warning("⚠️ هیچ پەڕگەی .txt نەدۆزرایەوە لە پەڕگەی 'knowledge/' — تکایە پەڕگە زیاد بکە.")
         return None, None
 
     doc_hash = hash_docs(paths)
