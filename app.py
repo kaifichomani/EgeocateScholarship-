@@ -104,7 +104,7 @@ def retrieve(index, items, query, k=TOP_K):
     D, I = index.search(q_vec, k)
     return [items[i] for i in I[0] if 0 <= i < len(items)]
 
-def ask_claude(question, context, model_id=DEFAULT_MODEL, temperature=0.5, max_tokens=1200):
+def ask_claude(question, context, model_id=DEFAULT_MODEL, temperature=0.5, max_tokens=1800):
     system_msg = (
         "تۆ یاریدەدەری زانستی و خوێندنیت بە زمانی کوردی (سۆرانی). "
         "وەڵامەکانت دەبێت بە وردەکاری و زانستی بنووسیت. "
