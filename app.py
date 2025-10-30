@@ -14,11 +14,11 @@ client = Anthropic(api_key=CLAUDE_API_KEY)
 KNOWLEDGE_DIR = "knowledge"
 os.makedirs(KNOWLEDGE_DIR, exist_ok=True)
 
-EMB_MODEL_NAME = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+EMB_MODEL_NAME = ""sentence-transformers/all-MiniLM-L6-v2"
 EMB_DIM = 384
 DEFAULT_MODEL = "claude-sonnet-4-5-20250929"
-TOP_K = 10
-CHUNK_SIZE = 700
+TOP_K = 7
+CHUNK_SIZE = 400
 OVERLAP = 150
 
 def hash_docs(doc_paths):
@@ -58,7 +58,7 @@ def chunk_text(text, chunk_size=CHUNK_SIZE, overlap=OVERLAP):
     return chunks
 
 def build_or_load_index():
-    paths = glob.glob(os.path.join(KNOWLEDGE_DIR, "*.docx"))
+    paths = glob.glob(os.path.join(KNOWLEDGE_DIR, "*.txt"))
     if not paths:
         st.warning("⚠️ هیچ پەڕگەی .docx نەدۆزرایەوە لە پەڕگەی 'knowledge/' — تکایە پەڕگە زیاد بکە.")
         return None, None
@@ -81,7 +81,7 @@ def build_or_load_index():
     emb = SentenceTransformer(EMB_MODEL_NAME)
     items = []
     for p in paths:
-        txt = load_docx_text(p)
+        txt = load_text(p)
         for ch in chunk_text(txt):
             items.append({"text": ch, "source": os.path.basename(p)})
 
