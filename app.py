@@ -13,12 +13,12 @@ client = Anthropic(api_key=CLAUDE_API_KEY)
 KNOWLEDGE_DIR = "knowledge"
 os.makedirs(KNOWLEDGE_DIR, exist_ok=True)
 
-EMB_MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
+EMB_MODEL_NAME = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
 EMB_DIM = 384
 DEFAULT_MODEL = "claude-sonnet-4-5-20250929"
-TOP_K = 7
-CHUNK_SIZE = 400
-OVERLAP = 150
+TOP_K = 10
+CHUNK_SIZE = 600
+OVERLAP = 200
 
 def hash_docs(doc_paths):
     h = hashlib.sha256()
@@ -93,7 +93,7 @@ def retrieve(index, items, query, k=TOP_K):
     D, I = index.search(q_vec, k)
     return [items[i] for i in I[0] if 0 <= i < len(items)]
 
-def ask_claude(question, context, model_id=DEFAULT_MODEL, temperature=0.5, max_tokens=1800):
+def ask_claude(question, context, model_id=DEFAULT_MODEL, temperature=0.7, max_tokens=2200):
     system_msg = (
         "تۆ یاریدەدەری زانستی و خوێندنیت بە زمانی کوردی (سۆرانی). "
         "وەڵامەکانت دەبێت بە وردەکاری و زانستی بنووسیت. "
