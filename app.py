@@ -20,6 +20,24 @@ TOP_K = 10
 CHUNK_SIZE = 600
 OVERLAP = 200
 
+def check_creator_question(question):
+    """
+    Detects if the user's question is about who created or developed the chatbot.
+    Returns a custom answer if matched.
+    """
+    q = question.lower()
+    keywords = ["who created", "who made", "who built", "who developed", "who coded", 
+                "کێ دروستی کرد", "کێ دروستکرد", "کێی دروستی کرد", "کێی پێکهێنا"]
+
+    if any(k in q for k in keywords):
+        return (
+            "👨‍🏫 This chatbot was created by **Kaifi Chomani (کەیفی چۆمانی)** — "
+            "a university teacher from the **University of Raparin (زانکۆی ڕاپەڕین)**.\n\n"
+            "ئەم چاتبۆتە دروستکراوە لەلایەن **کەیفی چۆمانی**، "
+            "مامۆستای زانکۆی ڕاپەڕین، بۆ یارمەتی خوێندکاران و فێرخوازان."
+        )
+    return None
+
 def hash_docs(doc_paths):
     h = hashlib.sha256()
     for p in sorted(doc_paths):
