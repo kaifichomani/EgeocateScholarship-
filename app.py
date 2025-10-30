@@ -131,7 +131,7 @@ with st.spinner("ئامادەکردنی بنکەی زانیاری..."):
     index, items = build_or_load_index()
 
 st.subheader("💬 پرسیار بکە")
-question = st.text_area("پرسەکەت بنووسە:")
+question = st.text_area("پرسیارەکەت بنووسە دەربارەی خوێندن یاخود ڕێنماییەکانی خوێندن:")
 
 if st.button("ناردن / Send", disabled=index is None):
     if not question.strip():
